@@ -84,7 +84,7 @@ func (b *Bdiscord) webhookSend(msg *config.Message, channelID string) (*discordg
 			}
 			content := fi.Comment
 
-			_, e2 := b.transmitter.Send(
+			res, err = b.transmitter.Send(
 				channelID,
 				&discordgo.WebhookParams{
 					Username:        msg.Username,
@@ -94,8 +94,8 @@ func (b *Bdiscord) webhookSend(msg *config.Message, channelID string) (*discordg
 					AllowedMentions: b.getAllowedMentions(),
 				},
 			)
-			if e2 != nil {
-				b.Log.Errorf("Could not send file %#v for message %#v: %s", file, msg, e2)
+			if err != nil {
+				b.Log.Errorf("Could not send file %#v for message %#v: %s", file, msg, err)
 			}
 		}
 	}
