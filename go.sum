@@ -134,6 +134,8 @@ github.com/Microsoft/hcsshim/test v0.0.0-20201218223536-d3e5debf77da/go.mod h1:5
 github.com/Microsoft/hcsshim/test v0.0.0-20210227013316-43a75bb4edd3/go.mod h1:mw7qgWloBUl75W/gVH3cQszUg1+gUITj7D6NY7ywVnY=
 github.com/NYTimes/gziphandler v0.0.0-20170623195520-56545f4a5d46/go.mod h1:3wb06e3pkSAbeQ52E9H9iFoQsEEwGN64994WTCIhntQ=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
+github.com/OvyFlash/telegram-bot-api/v5 v5.0.0-20221231001529-5e115c98c785 h1:8IUTtodMqW9M9DuKNiUqs1dAESfdUFWsGA6TjYoOp50=
+github.com/OvyFlash/telegram-bot-api/v5 v5.0.0-20221231001529-5e115c98c785/go.mod h1:A2S0CWkNylc2phvKXWBBdD3K0iGnDBGbzRpISP2zBl8=
 github.com/PaulARoy/azurestoragecache v0.0.0-20170906084534-3c249a3ba788/go.mod h1:lY1dZd8HBzJ10eqKERHn3CU59tfhzcAVb2c0ZhIWSOk=
 github.com/Philipp15b/go-steam v1.0.1-0.20200727090957-6ae9b3c0a560 h1:ItnC9PEEMESzTbFayxrhKBbuFQOXDBI8yy7NudTcEWs=
 github.com/Philipp15b/go-steam v1.0.1-0.20200727090957-6ae9b3c0a560/go.mod h1:o38AwUFFS4gzbjSoyIgrZ1h9UeDrKwcci1Pj6baifvI=
