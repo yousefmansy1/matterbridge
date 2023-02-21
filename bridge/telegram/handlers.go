@@ -20,6 +20,11 @@ func (b *Btelegram) handleUpdate(rmsg *config.Message, message, posted, edited *
 		if posted.Text == "/chatId" {
 			chatID := strconv.FormatInt(posted.Chat.ID, 10)
 
+			// Handle chat topics
+			if posted.IsTopicMessage {
+				chatID = chatID + "/" + strconv.Itoa(posted.MessageThreadID)
+			}
+
 			_, err := b.Send(config.Message{
 				Channel: chatID,
 				Text:    fmt.Sprintf("ID of this chat: %s", chatID),
@@ -91,7 +96,9 @@ func (b *Btelegram) handleForwarded(rmsg *config.Message, message *tgbotapi.Mess
 
 // handleQuoting handles quoting of previous messages
 func (b *Btelegram) handleQuoting(rmsg *config.Message, message *tgbotapi.Message) {
-	if message.ReplyToMessage != nil {
+	if message.ReplyToMessage != nil &&
+		// Used to check if the message was a reply to the root topic
+		!(message.ReplyToMessage.MessageID == message.MessageThreadID) {
 		usernameReply := ""
 		if message.ReplyToMessage.From != nil {
 			if b.GetBool("UseFirstName") {
@@ -202,9 +209,14 @@ func (b *Btelegram) handleRecv(updates <-chan tgbotapi.Update) {
 		// set the ID's from the channel or group message
 		rmsg.ID = strconv.Itoa(message.MessageID)
 		rmsg.Channel = strconv.FormatInt(message.Chat.ID, 10)
+		if message.MessageThreadID != 0 {
+			rmsg.Channel += "/" + strconv.Itoa(message.MessageThreadID)
+		}
 
 		// preserve threading from telegram reply
-		if message.ReplyToMessage != nil {
+		if message.ReplyToMessage != nil &&
+			// Used to check if the message was a reply to the root topic
+			!(message.ReplyToMessage.MessageID == message.MessageThreadID) {
 			rmsg.ParentID = strconv.Itoa(message.ReplyToMessage.MessageID)
 		}
 
@@ -317,12 +329,12 @@ func (b *Btelegram) maybeConvertWebp(name *string, data *[]byte) {
 
 // handleDownloadFile handles file download
 func (b *Btelegram) handleDownload(rmsg *config.Message, message *tgbotapi.Message) error {
-	size := 0
+	size := int64(0)
 	var url, name, text string
 	switch {
 	case message.Sticker != nil:
 		text, name, url = b.getDownloadInfo(message.Sticker.FileID, ".webp", true)
-		size = message.Sticker.FileSize
+		size = int64(message.Sticker.FileSize)
 	case message.Voice != nil:
 		text, name, url = b.getDownloadInfo(message.Voice.FileID, ".ogg", true)
 		size = message.Voice.FileSize
@@ -339,7 +351,7 @@ func (b *Btelegram) handleDownload(rmsg *config.Message, message *tgbotapi.Messa
 		text = " " + message.Document.FileName + " : " + url
 	case message.Photo != nil:
 		photos := message.Photo
-		size = photos[len(photos)-1].FileSize
+		size = int64(photos[len(photos)-1].FileSize)
 		text, name, url = b.getDownloadInfo(photos[len(photos)-1].FileID, "", true)
 	}
 
@@ -443,7 +455,7 @@ func (b *Btelegram) handleEdit(msg *config.Message, chatid int64) (string, error
 }
 
 // handleUploadFile handles native upload of files
-func (b *Btelegram) handleUploadFile(msg *config.Message, chatid int64, parentID int) (string, error) {
+func (b *Btelegram) handleUploadFile(msg *config.Message, chatid int64, threadid int, parentID int) (string, error) {
 	var media []interface{}
 	for _, f := range msg.Extra["file"] {
 		fi := f.(config.FileInfo)
@@ -493,7 +505,7 @@ func (b *Btelegram) handleUploadFile(msg *config.Message, chatid int64, parentID
 		}
 	}
 
-	return b.sendMediaFiles(msg, chatid, parentID, media)
+	return b.sendMediaFiles(msg, chatid, threadid, parentID, media)
 }
 
 func (b *Btelegram) handleQuote(message, quoteNick, quoteMessage string) string {
