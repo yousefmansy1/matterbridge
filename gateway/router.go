@@ -178,9 +178,15 @@ func (r *Router) handleReceive() {
 					// we're adding the original message as a "dest message"
 					// as when we get the dest messages for a delete the source message isnt in the list
 					// therefore the delete doesnt happen on the source platform.
-					msgIDs = append(msgIDs, &BrMsgID{srcBridge, srcBridge.Protocol + " " + msg.ID, msg.Channel + srcBridge.Account})
+					msgIDs = append(msgIDs,
+						&BrMsgID{
+							Protocol:  srcBridge.Protocol,
+							DestName:  srcBridge.Name,
+							ChannelID: msg.Channel + srcBridge.Account,
+							ID:        msg.ID,
+						})
 
-					gw.Messages.Add(msg.Protocol+" "+msg.ID, msgIDs)
+					gw.SetMessageMap(msg.Protocol+" "+msg.ID, msgIDs)
 				}
 			}
 		}

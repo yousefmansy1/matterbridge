@@ -59,6 +59,10 @@ require (
 )
 
 require (
+	github.com/AndreasBriese/bbloom v0.0.0-20190825152654-46b345b51c96 // indirect
+	github.com/dgraph-io/badger v1.6.0 // indirect
+	github.com/dgryski/go-farm v0.0.0-20190423205320-6a90982ecee2 // indirect
+	github.com/philippgille/gokv/badgerdb v0.6.0 // indirect
 	github.com/philippgille/gokv/bbolt v0.6.0 // indirect
 	github.com/philippgille/gokv/encoding v0.0.0-20191011213304-eb77f15b9c61 // indirect
 	github.com/philippgille/gokv/util v0.0.0-20191011213304-eb77f15b9c61 // indirect
