@@ -381,6 +381,9 @@ github.com/philippgille/gokv
 # github.com/philippgille/gokv/badgerdb v0.6.0
 ## explicit; go 1.13
 github.com/philippgille/gokv/badgerdb
+# github.com/philippgille/gokv/bbolt v0.6.0
+## explicit; go 1.13
+github.com/philippgille/gokv/bbolt
 # github.com/philippgille/gokv/encoding v0.0.0-20191011213304-eb77f15b9c61
 ## explicit; go 1.12
 github.com/philippgille/gokv/encoding
@@ -516,6 +519,9 @@ github.com/yaegashi/msgraph.go/msauth
 # github.com/zfjagann/golang-ring v0.0.0-20220330170733-19bcea1b6289
 ## explicit
 github.com/zfjagann/golang-ring
+# go.etcd.io/bbolt v1.3.6
+## explicit; go 1.12
+go.etcd.io/bbolt
 # go.mau.fi/libsignal v0.1.0
 ## explicit; go 1.18
 go.mau.fi/libsignal/cipher
