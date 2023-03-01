@@ -297,15 +297,22 @@ func handleEmbed(embed *discordgo.MessageEmbed) string {
 }
 
 func (b *Bdiscord) handleDownloadFile(rmsg *config.Message, m *discordgo.MessageCreate) error {
-	for _, attach := range m.Attachments {
+	for i, attach := range m.Attachments {
 		data, err := helper.DownloadFile(attach.URL)
 
 		if err != nil {
 			return fmt.Errorf("download %s failed %#v", attach.URL, err)
 		}
 
-		helper.HandleDownloadData(b.Log, rmsg, path.Base(attach.URL), rmsg.Text, attach.URL, data, b.General)
+		caption := ""
+		if i == 0 {
+			caption = rmsg.Text
+		}
+
+		helper.HandleDownloadData(b.Log, rmsg, path.Base(attach.URL), caption, attach.URL, data, b.General)
 	}
+
+	rmsg.Text = ""
 
 	return nil
 }
