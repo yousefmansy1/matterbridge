@@ -45,7 +45,7 @@ func (b *Bwhatsapp) handleUserJoin(event *events.GroupInfo) {
 		senderName := b.getSenderNameFromJID(joinedJid)
 
 		rmsg := config.Message{
-			UserID:   joinedJid.String(),
+			UserID:   joinedJid.ToNonAD().String(),
 			Username: senderName,
 			Channel:  event.JID.String(),
 			Account:  b.Account,
@@ -64,7 +64,7 @@ func (b *Bwhatsapp) handleUserLeave(event *events.GroupInfo) {
 		senderName := b.getSenderNameFromJID(leftJid)
 
 		rmsg := config.Message{
-			UserID:   leftJid.String(),
+			UserID:   leftJid.ToNonAD().String(),
 			Username: senderName,
 			Channel:  event.JID.String(),
 			Account:  b.Account,
@@ -87,7 +87,7 @@ func (b *Bwhatsapp) handleTopicChange(event *events.GroupInfo) {
 	}
 
 	rmsg := config.Message{
-		UserID:   senderJid.String(),
+		UserID:   senderJid.ToNonAD().String(),
 		Username: senderName,
 		Channel:  event.JID.String(),
 		Account:  b.Account,
@@ -174,7 +174,7 @@ func (b *Bwhatsapp) handleTextMessage(messageInfo types.MessageInfo, msg *proto.
 	}
 
 	rmsg := config.Message{
-		UserID:   senderJID.String(),
+		UserID:   senderJID.ToNonAD().String(),
 		Username: senderName,
 		Text:     text,
 		Channel:  channel.String(),
@@ -185,7 +185,7 @@ func (b *Bwhatsapp) handleTextMessage(messageInfo types.MessageInfo, msg *proto.
 		ParentID: parentID,
 	}
 
-	if avatarURL, exists := b.userAvatars[senderJID.String()]; exists {
+	if avatarURL, exists := b.userAvatars[senderJID.ToNonAD().String()]; exists {
 		rmsg.Avatar = avatarURL
 	}
 
@@ -208,7 +208,7 @@ func (b *Bwhatsapp) handleImageMessage(msg *events.Message) {
 	}
 
 	rmsg := config.Message{
-		UserID:   senderJID.String(),
+		UserID:   senderJID.ToNonAD().String(),
 		Username: senderName,
 		Channel:  msg.Info.Chat.String(),
 		Account:  b.Account,
@@ -218,7 +218,7 @@ func (b *Bwhatsapp) handleImageMessage(msg *events.Message) {
 		ParentID: getParentIdFromCtx(ci),
 	}
 
-	if avatarURL, exists := b.userAvatars[senderJID.String()]; exists {
+	if avatarURL, exists := b.userAvatars[senderJID.ToNonAD().String()]; exists {
 		rmsg.Avatar = avatarURL
 	}
 
@@ -272,7 +272,7 @@ func (b *Bwhatsapp) handleVideoMessage(msg *events.Message) {
 	}
 
 	rmsg := config.Message{
-		UserID:   senderJID.String(),
+		UserID:   senderJID.ToNonAD().String(),
 		Username: senderName,
 		Channel:  msg.Info.Chat.String(),
 		Account:  b.Account,
@@ -282,7 +282,7 @@ func (b *Bwhatsapp) handleVideoMessage(msg *events.Message) {
 		ParentID: getParentIdFromCtx(ci),
 	}
 
-	if avatarURL, exists := b.userAvatars[senderJID.String()]; exists {
+	if avatarURL, exists := b.userAvatars[senderJID.ToNonAD().String()]; exists {
 		rmsg.Avatar = avatarURL
 	}
 
@@ -338,7 +338,7 @@ func (b *Bwhatsapp) handleAudioMessage(msg *events.Message) {
 		senderJID = types.NewJID(ci.GetParticipant(), types.DefaultUserServer)
 	}
 	rmsg := config.Message{
-		UserID:   senderJID.String(),
+		UserID:   senderJID.ToNonAD().String(),
 		Username: senderName,
 		Channel:  msg.Info.Chat.String(),
 		Account:  b.Account,
@@ -348,7 +348,7 @@ func (b *Bwhatsapp) handleAudioMessage(msg *events.Message) {
 		ParentID: getParentIdFromCtx(ci),
 	}
 
-	if avatarURL, exists := b.userAvatars[senderJID.String()]; exists {
+	if avatarURL, exists := b.userAvatars[senderJID.ToNonAD().String()]; exists {
 		rmsg.Avatar = avatarURL
 	}
 
@@ -396,7 +396,7 @@ func (b *Bwhatsapp) handleDocumentMessage(msg *events.Message) {
 	}
 
 	rmsg := config.Message{
-		UserID:   senderJID.String(),
+		UserID:   senderJID.ToNonAD().String(),
 		Username: senderName,
 		Channel:  msg.Info.Chat.String(),
 		Account:  b.Account,
@@ -406,7 +406,7 @@ func (b *Bwhatsapp) handleDocumentMessage(msg *events.Message) {
 		ParentID: getParentIdFromCtx(ci),
 	}
 
-	if avatarURL, exists := b.userAvatars[senderJID.String()]; exists {
+	if avatarURL, exists := b.userAvatars[senderJID.ToNonAD().String()]; exists {
 		rmsg.Avatar = avatarURL
 	}
 

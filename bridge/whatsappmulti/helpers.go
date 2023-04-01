@@ -205,6 +205,6 @@ func getParentIdFromCtx(ci *proto.ContextInfo) string {
 
 func getMessageIdFormat(jid types.JID, messageID string) string {
 	// we're crafting our own JID str as AD JID format messes with how stuff looks on a webclient
-	jidStr := fmt.Sprintf("%s@%s", jid.User, jid.Server)
+	jidStr := jid.ToNonAD().String()
 	return fmt.Sprintf("%s/%s", jidStr, messageID)
 }

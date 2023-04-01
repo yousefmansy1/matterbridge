@@ -138,7 +138,7 @@ func (b *Bwhatsapp) Connect() error {
 	for id, contact := range b.contacts {
 		if !isGroupJid(id.String()) && id.String() != "status@broadcast" {
 			// it is user
-			b.users[id.String()] = contact
+			b.users[id.ToNonAD().String()] = contact
 		}
 	}
 
