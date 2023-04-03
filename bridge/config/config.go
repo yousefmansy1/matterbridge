@@ -171,6 +171,7 @@ type Protocol struct {
 	UseFirstName               bool       // telegram
 	UseInsecureURL             bool       // telegram
 	UseLocalAvatar             []string   // discord
+	UseRemoteAvatar            bool       // whatsapp
 	UserName                   string     // IRC
 	UseSASL                    bool       // IRC
 	UseTLS                     bool       // IRC

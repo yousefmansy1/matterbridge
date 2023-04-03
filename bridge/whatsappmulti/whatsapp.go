@@ -143,22 +143,24 @@ func (b *Bwhatsapp) Connect() error {
 	}
 
 	// get user avatar asynchronously
-	b.Log.Info("Getting user avatars..")
+	if b.General.UseRemoteAvatar {
+		b.Log.Info("Getting user avatars..")
 
-	for jid := range b.users {
-		info, err := b.GetProfilePicThumb(jid)
-		if err != nil {
-			b.Log.Warnf("Could not get profile photo of %s: %v", jid, err)
-		} else {
-			b.Lock()
-			if info != nil {
-				b.userAvatars[jid] = info.URL
+		for jid := range b.users {
+			info, err := b.GetProfilePicThumb(jid)
+			if err != nil {
+				b.Log.Warnf("Could not get profile photo of %s: %v", jid, err)
+			} else {
+				b.Lock()
+				if info != nil {
+					b.userAvatars[jid] = info.URL
+				}
+				b.Unlock()
 			}
-			b.Unlock()
 		}
-	}
 
-	b.Log.Info("Finished getting avatars..")
+		b.Log.Info("Finished getting avatars..")
+	}
 
 	return nil
 }
