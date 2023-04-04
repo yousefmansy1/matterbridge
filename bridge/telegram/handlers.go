@@ -203,7 +203,11 @@ func (b *Btelegram) handleRecv(updates <-chan tgbotapi.Update) {
 
 		var message *tgbotapi.Message
 
-		rmsg := config.Message{Account: b.Account, Extra: make(map[string][]interface{})}
+		rmsg := config.Message{
+			Account:  b.Account,
+			Protocol: b.Protocol,
+			Extra:    make(map[string][]interface{}),
+		}
 
 		// handle channels
 		message = b.handleChannels(&rmsg, message, update)
